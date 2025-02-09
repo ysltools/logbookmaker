@@ -1,0 +1,64 @@
+* {
+  font-family:'Spoqa Han Sans Neo','sans-serif';
+  word-break:keep-all;
+}
+
+footer.first {
+  margin-top:500px;
+}
+hr {
+  border-top:2px black solid;
+}
+.w3-card-4,.w3-hover-shadow:hover {
+  box-shadow:0 4px 10px 0 rgb(0,0,0,0.4),0 4px 20px 0 rgba(0,0,0,0.4)
+}
+
+.clr-field button {
+  width:22px;
+  height:22px;
+  left:5px;
+  right:auto;
+  
+  border-radius:5px;
+}
+.clr-field input {
+  padding-left: 36px;
+  
+  cursor:pointer;
+}
+
+.inputHeader {
+  display:inline-block;
+  width:70px;
+}
+body.checkInvalid input:invalid {
+  outline:3px red solid;
+}
+input[type="text"], input[type="number"] {
+  width:200px;
+  display:inline-block;
+}
+input[type="text"].long, input[type="number"].long {
+  width:calc(100% - 75px);
+}
+input[type="text"].middle, input[type="number"].middle {
+  width:150px;
+}
+input[type="text"].short, input[type="number"].short {
+  width:100px;
+}
+input[type="text"].right {
+  padding-right:5px;
+  text-align:right;
+  box-sizing:border-box;
+}
+input[type="number"].right {
+  text-align:right;
+}
+input[type="checkbox"], label {
+  cursor:pointer;
+  user-select: none;
+}
+select {
+  margin-left:5px;
+}

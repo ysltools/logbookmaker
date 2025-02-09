@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="ko">
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./files/w3.css">
+    <link rel="stylesheet" href="./files/w3-theme-blue-grey.css">
+    <link href='https://spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+
+		<title>업무일지 생성기</title>
+    <link rel="stylesheet" href="./files/coloris/coloris.min.css"/>
+    <script src="./files/coloris/coloris.min.js"></script>
+    <link rel="stylesheet" media="all" href="./files/maker_style.css">
+
+	</head>
+	<body>
+    <!-- 상단 헤더 -->
+    <div class="w3-top">
+      <div class="w3-bar w3-theme-d2 w3-left-align w3-large">
+        <div class="w3-bar-item w3-padding w3-theme-d4">양산시립도서관 업무일지 생성기</div>
+        <button id="settings" class="w3-bar-item w3-padding w3-button">⚙️ 부가기능</button>
+
+        <button id="writeExcel" class="w3-bar-item w3-padding w3-teal w3-right w3-button">엑셀 출력</button>
+      </div>
+    </div>
+
+    <!-- 본 페이지 시작 -->
+    <div class="w3-container w3-content" style="max-width:1400px;margin-top:80px">    
+      <!-- 그리드 시작 -->
+      <div class="w3-row">
+        <!-- 좌측 열 시작 -->
+        <div class="w3-col m4">
+          <!-- 파일 기본 설정 -->
+          <div class="w3-card-4 w3-round w3-light-grey"><div class="w3-container">
+            <div class="w3-container w3-round-xlarge w3-blue-grey w3-margin">
+              <h2 class="w3-center"><b>📁 파일 기본 설정</b></h2>
+            </div>
+            <hr>
+            <p><span class="inputHeader">기관명 : </span>
+              <input type="text" id="input_PROP_library" class="w3-border long" required></p>
+            <p><span class="inputHeader">날짜(년월): </span>
+              <input type="month" id="input_PROP_date" class="w3-border" required></p>
+            <hr>
+            <p><span class="inputHeader">폰트명 : </span>
+              <input type="text" id="input_PROP_fontName" name="input_PROP_fontName" class="w3-border long" required></p>
+            <hr>
+            <h3 class="w3-center">폰트 사이즈</h3>
+            <p><span class="inputHeader">규격1 : </span>
+              <input type="number" id="input_PROP_fontSize_title" class="w3-border short right" required> pt (제목)</p>
+            <p><span class="inputHeader">규격2 : </span>
+              <input type="number" id="input_PROP_fontSize_large" class="w3-border short right" required> pt (대형)</p>
+            <p><span class="inputHeader">규격3 : </span>
+              <input type="number" id="input_PROP_fontSize_semiLarge" class="w3-border short right" required> pt (중대형)</p>
+            <p><span class="inputHeader">규격4 : </span>
+              <input type="number" id="input_PROP_fontSize_middle" class="w3-border short right" required> pt (중형)</p>
+            <p><span class="inputHeader">규격5 : </span>
+              <input type="number" id="input_PROP_fontSize_small" class="w3-border short right" required> pt (소형)</p>
+            <hr>
+            <h3 class="w3-center">행/열 규격</h3>
+            <p><span class="inputHeader">행(제목) : </span>
+              <input type="number" id="input_PROP_rowHeight_first" class="w3-border short right" required> 인치</p>
+            <p><span class="inputHeader">행(본문) : </span>
+              <input type="number" id="input_PROP_rowHeight_other" class="w3-border short right" required> 인치</p>
+            <p><span class="inputHeader">열 : </span>
+              <input type="number" id="input_PROP_colWidth" class="w3-border short right" required> 인치</p>
+            <hr>
+            <p><span class="inputHeader">확대 비율 : </span>
+              <input type="number" id="input_PROP_zoom" class="w3-border short right" required> %</p>
+          </div></div>
+          <br>
+          <br>
+          
+          <!-- 요일별 설정 -->
+          <div id="dataDesc" class="w3-card-4 w3-round w3-light-grey"><div class="w3-container">
+            <div class="w3-container w3-round-xlarge w3-blue-grey w3-margin">
+              <h2 class="w3-center"><b>📅 요일별 문구 설정</b></h2>
+            </div>
+            <hr>
+            <h3 class="w3-center">월요일</h3>
+            <p><span class="inputHeader">문구내용 : </span>
+              <input type="text" id="input_PROP_dateType_월_ordinary_desc" class="w3-border long" required></p>
+            <p><span class="inputHeader">문구색상 : </span>
+              <input type="text" id="input_PROP_dateType_월_ordinary_color" class="input_color" value="blue" data-coloris required></p>
+            <p><input id="input_PROP_dateType_월_useLast" class="w3-check input_PROP_dateType_useLast" type="checkbox" value="월"><label for="input_PROP_dateType_월_useLast"> 마지막 주 월요일 문구 별도 설정</label></p>
+            <div id="div_last_월" class="w3-border w3-container w3-dark-grey" style="display:none;">
+              <h4 class="w3-center">🗓️ 마지막 주 월요일</h4>
+              <p><span class="inputHeader">문구내용 : </span>
+                <input type="text" id="input_PROP_dateType_월_last_desc" class="w3-border long" required></p>
+              <p><span class="inputHeader">문구색상 : </span>
+                <input type="text" id="input_PROP_dateType_월_last_color" class="input_color" value="blue" data-coloris></p>
+            </div>
+            <hr>
+            <h3 class="w3-center">화요일</h3>
+            <p><span class="inputHeader">문구내용 : </span>
+              <input type="text" id="input_PROP_dateType_화_ordinary_desc" class="w3-border long" required></p>
+            <p><span class="inputHeader">문구색상 : </span>
+              <input type="text" id="input_PROP_dateType_화_ordinary_color" class="input_color" value="blue" data-coloris required></p>
+            <p><input id="input_PROP_dateType_화_useLast" class="w3-check input_PROP_dateType_useLast" type="checkbox" value="화"><label for="input_PROP_dateType_화_useLast"> 마지막 주 화요일 문구 별도 설정</label></p>
+            <div id="div_last_화" class="w3-border w3-container w3-dark-grey" style="display:none;">
+              <h4 class="w3-center">🗓️ 마지막 주 화요일</h4>
+              <p><span class="inputHeader">문구내용 : </span>
+                <input type="text" id="input_PROP_dateType_화_last_desc" class="w3-border long" required></p>
+              <p><span class="inputHeader">문구색상 : </span>
+                <input type="text" id="input_PROP_dateType_화_last_color" class="input_color" value="blue" data-coloris required></p>
+            </div>
+            <hr>
+            <h3 class="w3-center">수요일</h3>
+            <p><span class="inputHeader">문구내용 : </span>
+              <input type="text" id="input_PROP_dateType_수_ordinary_desc" class="w3-border long" required></p>
+            <p><span class="inputHeader">문구색상 : </span>
+              <input type="text" id="input_PROP_dateType_수_ordinary_color" class="input_color" value="blue" data-coloris required></p>
+            <p><input id="input_PROP_dateType_수_useLast" class="w3-check input_PROP_dateType_useLast" type="checkbox" value="수"><label for="input_PROP_dateType_수_useLast"> 마지막 주 수요일 문구 별도 설정</label></p>
+            <div id="div_last_수" class="w3-border w3-container w3-dark-grey" style="display:none;">
+              <h4 class="w3-center">🗓️ 마지막 주 수요일</h4>
+              <p><span class="inputHeader">문구내용 : </span>
+                <input type="text" id="input_PROP_dateType_수_last_desc" class="w3-border long" required></p>
+              <p><span class="inputHeader">문구색상 : </span>
+                <input type="text" id="input_PROP_dateType_수_last_color" class="input_color" value="blue" data-coloris required></p>
+            </div>
+            <hr>
+            <h3 class="w3-center">목요일</h3>
+            <p><span class="inputHeader">문구내용 : </span>
+              <input type="text" id="input_PROP_dateType_목_ordinary_desc" class="w3-border long" required></p>
+            <p><span class="inputHeader">문구색상 : </span>
+              <input type="text" id="input_PROP_dateType_목_ordinary_color" class="input_color" value="blue" data-coloris required></p>
+            <p><input id="input_PROP_dateType_목_useLast" class="w3-check input_PROP_dateType_useLast" type="checkbox" value="목"><label for="input_PROP_dateType_목_useLast"> 마지막 주 목요일 문구 별도 설정</label></p>
+            <div id="div_last_목" class="w3-border w3-container w3-dark-grey" style="display:none;">
+              <h4 class="w3-center">🗓️ 마지막 주 목요일</h4>
+              <p><span class="inputHeader">문구내용 : </span>
+                <input type="text" id="input_PROP_dateType_목_last_desc" class="w3-border long" required></p>
+              <p><span class="inputHeader">문구색상 : </span>
+                <input type="text" id="input_PROP_dateType_목_last_color" class="input_color" value="blue" data-coloris required></p>
+            </div>
+            <hr>
+            <h3 class="w3-center">금요일</h3>
+            <p><span class="inputHeader">문구내용 : </span>
+              <input type="text" id="input_PROP_dateType_금_ordinary_desc" class="w3-border long" required></p>
+            <p><span class="inputHeader">문구색상 : </span>
+              <input type="text" id="input_PROP_dateType_금_ordinary_color" class="input_color" value="blue" data-coloris required></p>
+            <p><input id="input_PROP_dateType_금_useLast" class="w3-check input_PROP_dateType_useLast" type="checkbox" value="금"><label for="input_PROP_dateType_금_useLast"> 마지막 주 금요일 문구 별도 설정</label></p>
+            <div id="div_last_금" class="w3-border w3-container w3-dark-grey" style="display:none;">
+              <h4 class="w3-center">🗓️ 마지막 주 금요일</h4>
+              <p><span class="inputHeader">문구내용 : </span>
+                <input type="text" id="input_PROP_dateType_금_last_desc" class="w3-border long" required></p>
+              <p><span class="inputHeader">문구색상 : </span>
+                <input type="text"id="input_PROP_dateType_금_last_color" class="input_color" value="blue" data-coloris required></p>
+            </div>
+            <hr>
+            <h3 class="w3-center">토요일</h3>
+            <p><span class="inputHeader">문구내용 : </span>
+              <input type="text" id="input_PROP_dateType_토_ordinary_desc" class="w3-border long" required></p>
+            <p><span class="inputHeader">문구색상 : </span>
+              <input type="text" id="input_PROP_dateType_토_ordinary_color" class="input_color" value="blue" data-coloris required></p>
+            <p><input id="input_PROP_dateType_토_useLast" class="w3-check input_PROP_dateType_useLast" type="checkbox" value="토"><label for="input_PROP_dateType_토_useLast"> 마지막 주 토요일 문구 별도 설정</label></p>
+            <div id="div_last_토" class="w3-border w3-container w3-dark-grey" style="display:none;">
+              <h4 class="w3-center">🗓️ 마지막 주 토요일</h4>
+              <p><span class="inputHeader">문구내용 : </span>
+                <input type="text" id="input_PROP_dateType_토_last_desc" class="w3-border long" required></p>
+              <p><span class="inputHeader">문구색상 : </span>
+                <input type="text" id="input_PROP_dateType_토_last_color" class="input_color" value="blue" data-coloris required></p>
+            </div>
+            <hr>
+            <h3 class="w3-center">일요일</h3>
+            <p><span class="inputHeader">문구내용 : </span>
+              <input type="text" id="input_PROP_dateType_일_ordinary_desc" class="w3-border long" required></p>
+            <p><span class="inputHeader">문구색상 : </span>
+              <input type="text" id="input_PROP_dateType_일_ordinary_color" class="input_color" value="blue" data-coloris required></p>
+            <p><input id="input_PROP_dateType_일_useLast" class="w3-check input_PROP_dateType_useLast" type="checkbox" value="일"><label for="input_PROP_dateType_일_useLast"> 마지막 주 일요일 문구 별도 설정</label></p>
+            <div id="div_last_일" class="w3-border w3-container w3-dark-grey" style="display:none;">
+              <h4 class="w3-center">🗓️ 마지막 주 일요일</h4>
+              <p><span class="inputHeader">문구내용 : </span>
+                <input type="text" id="input_PROP_dateType_일_last_desc" class="w3-border long" required></p>
+              <p><span class="inputHeader">문구색상 : </span>
+                <input type="text" id="input_PROP_dateType_일_last_color" class="input_color" value="blue" data-coloris required></p>
+            </div>
+            <p></p>
+          </div></div>
+          <br>
+        
+        <!-- 좌측 열 : 끝 -->
+        </div>
+        
+        <!-- 중간 열 : 시작 -->
+        <div class="w3-col m4">
+          
+          <!-- 관외대출 현황 -->
+          <div class="w3-row-padding">
+            <div class="w3-col m12">
+              
+              <div class="w3-card-4 w3-round w3-light-grey"><div class="w3-container">
+                <div class="w3-container w3-round-xlarge w3-blue-grey w3-margin">
+                  <h2 class="w3-center"><b>📓 관외대출 현황</b></h2>  
+                </div>
+                <hr>
+                <p><span class="inputHeader">제목 : </span>
+                  <input type="text" id="input_CONT_관외대출_title" class="w3-border long" required></p>
+                <div class="w3-half">
+                  <button id="input_CONT_관외대출_col_add" class="w3-button w3-block w3-green w3-section">+&nbsp;&nbsp;자료실 추가</button>
+                </div>
+                <div class="w3-half">
+                  <button id="input_CONT_관외대출_col_remove" class="w3-button w3-block w3-red w3-section">-&nbsp;&nbsp;자료실 삭제</button>
+                </div>
+                <div id="div_관외대출"><!--동적 생성란--></div>
+              </div></div>
+
+            </div>
+          </div>
+          <br>
+
+          <!-- 이용자 현황 -->
+          <div class="w3-card-4 w3-round w3-light-grey w3-margin"><div class="w3-container">
+            <div class="w3-container w3-round-xlarge w3-blue-grey w3-margin">
+              <h2 class="w3-center"><b>👪 이용자 현황</b></h2>
+            </div>
+            <hr>
+            <p><span class="inputHeader">제목 : </span>
+              <input type="text" id="input_CONT_이용자_title" class="w3-border long" required></p>
+            <hr>
+            <p class="w3-small"><ul>
+              <li>야간 X, 특성화 X : 최대 분류 14개 가능</li>
+              <li>야간 O, 특성화 X : 최대 분류 10개 가능</li>
+              <li>야간 X, 특성화 O : 최대 분류 12개 가능</li>
+              <li>야간 O, 특성화 O : 최대 분류 8개 가능</li>
+              </ul></p>
+            <hr>
+            <h3 class="w3-center">이용자 구분(좌측, 행) 설정</h3>
+            <div class="w3-half">
+              <button id="input_CONT_이용자_col_add" class="w3-button w3-block w3-green w3-section">+&nbsp;&nbsp;이용자 추가</button>
+            </div>
+            <div class="w3-half">
+              <button id="input_CONT_이용자_col_remove" class="w3-button w3-block w3-red w3-section">-&nbsp;&nbsp;이용자 삭제</button>
+            </div>
+            <div id="div_이용자_col"><!--동적 생성란--></div>
+            <hr>
+            <h3 class="w3-center">이용 분류(상단, 열) 설정</h3>
+            <div class="w3-half">
+              <button id="input_CONT_이용자_row_add" class="w3-button w3-block w3-green w3-section">+&nbsp;&nbsp;분류 추가</button>
+            </div>
+            <div class="w3-half">
+              <button id="input_CONT_이용자_row_remove" class="w3-button w3-block w3-red w3-section">-&nbsp;&nbsp;분류 삭제</button>
+            </div>
+            <div id="div_이용자_row"><!--동적 생성란--></div>
+          </div></div>
+          <br>
+
+          <!-- 야간 이용 현황 -->
+          <div class="w3-card-4 w3-round w3-light-grey w3-margin"><div class="w3-container">
+            <div class="w3-container w3-round-xlarge w3-blue-grey w3-margin">
+              <h2 class="w3-center"><b>🌙 야간 이용 현황</b></h2>
+            </div>
+            <hr>
+            <p><input id="input_CONT_야간_enabled" class="w3-check" type="checkbox"><label for="input_CONT_야간_enabled"> 야간 이용 현황 활성화</label></p>
+            <div id="div_야간" style="display:none;">
+              <hr>
+              <p><span class="inputHeader">제목 : </span>
+                <input type="text" id="input_CONT_야간_title" class="w3-border long" required></p>
+              <hr>
+              <p><input id="input_CONT_야간_study" class="w3-check" type="checkbox"><label for="input_CONT_야간_study"> 열람실 이용자 야간 집계</label></p>
+              <div id="div_야간_study">
+                <p><span class="inputHeader">입력란 명 : </span>
+                  <input type="text" id="input_CONT_야간_studyName" class="w3-border long" required></p>
+              </div>
+            </div>
+          </div></div>
+          <br>
+
+          <!-- 특성화자료 현황 -->
+          <div class="w3-card-4 w3-round w3-light-grey w3-margin"><div class="w3-container">
+            <div class="w3-container w3-round-xlarge w3-blue-grey w3-margin">
+              <h2 class="w3-center"><b>☺ 특성화자료 현황</b></h2>
+            </div>
+            <hr>
+            <p><input id="input_CONT_특성화_enabled" class="w3-check" type="checkbox"><label for="input_CONT_특성화_enabled"> 특성화자료 현황 활성화</label></p>  
+            <div id="div_특성화" style="display:none;">
+              <hr>
+              <p><span class="inputHeader">제목 : </span>
+                <input type="text" id="input_CONT_특성화_title" class="w3-border long" required></p>
+              <p><span class="inputHeader">자료명 : </span>
+                <input type="text" id="input_CONT_특성화_name" class="w3-border long" required></p>
+            </div>
+          </div></div>
+          <br>
+
+          <!-- 소장자료 현황 -->
+          <div class="w3-card-4 w3-round w3-light-grey w3-margin"><div class="w3-container">
+            <div class="w3-container w3-round-xlarge w3-blue-grey w3-margin">
+              <h2 class="w3-center"><b>📕 소장자료 현황</b></h2>
+            </div>
+            <hr>
+            <p><span class="inputHeader">제목 : </span>
+              <input type="text" id="input_CONT_소장자료_title" class="w3-border long" required></p>
+            <hr>
+            <h3 class="w3-center">📕 도서현황 자료실 설정</h3>
+            <div class="w3-half">
+              <button id="input_CONT_소장자료_자료실_add" class="w3-button w3-block w3-green w3-section">+&nbsp;&nbsp;자료실 추가</button>
+            </div>
+            <div class="w3-half">
+              <button id="input_CONT_소장자료_자료실_remove" class="w3-button w3-block w3-red w3-section">-&nbsp;&nbsp;자료실 삭제</button>
+            </div>
+            <div id="div_소장자료_자료실"><!--동적 생성란--></div>
+            <hr>
+            <h3 class="w3-center">💿 비도서 항목 설정</h3>
+            <div class="w3-half">
+              <button id="input_CONT_소장자료_비도서_add" class="w3-button w3-block w3-green w3-section">+&nbsp;&nbsp;항목 추가</button>
+            </div>
+            <div class="w3-half">
+              <button id="input_CONT_소장자료_비도서_remove" class="w3-button w3-block w3-red w3-section">-&nbsp;&nbsp;항목 삭제</button>
+            </div>
+            <div id="div_소장자료_비도서"><!--동적 생성란--></div>
+            <hr>
+            <p><span class="inputHeader">총권수 명 : </span>
+              <input type="text" id="input_CONT_소장자료_totalName" class="w3-border" required></p>
+            <hr>
+            <h3 class="w3-center">📚 별도 소계, 개별수치 설정</h3>
+            <p><ul><li>예시 : 월간 증가량, 연간 증가량, 별도관리 자료수</li></ul></p>
+            <div class="w3-half">
+              <button id="input_CONT_소장자료_subTotal_add" class="w3-button w3-block w3-green w3-section">+&nbsp;&nbsp;소계 추가</button>
+            </div>
+            <div class="w3-half">
+              <button id="input_CONT_소장자료_subTotal_remove" class="w3-button w3-block w3-red w3-section">-&nbsp;&nbsp;소계 삭제</button>
+            </div>
+            <div id="div_소장자료_subTotal"><!--동적 생성란--></div>
+          </div></div>
+          <br>
+          
+        <!-- 중간 열 : 끝 -->
+        </div>
+        
+        <!-- 우측 열 : 시작 -->
+        <div class="w3-col m4">
+
+          <!-- 회원가입 현황 -->
+          <div class="w3-card-4 w3-round w3-light-grey"><div class="w3-container">
+            <div class="w3-container w3-round-xlarge w3-blue-grey w3-margin">
+              <h2 class="w3-center"><b>📝 회원가입 현황</b></h2>
+            </div>
+            <hr>
+            <p><span class="inputHeader">제목 : </span>
+              <input type="text" id="input_CONT_회원가입_title" class="w3-border long" required></p>
+            <hr>
+            <h3 class="w3-center">범주 설정</h3>
+            <p><ul>
+              <li>범주 예시 : 회원 가입, 회원증 발급</li>
+              <li>세부구분은 쉼표( , )로 서로를 구분하여 입력하세요.</li>
+              <li>세부구분 입력 예시 : [영유아 및 학생,일반]</li>
+            </ul></p>
+            <div class="w3-half">
+              <button id="input_CONT_회원가입_add" class="w3-button w3-block w3-green w3-section">+&nbsp;&nbsp;범주 추가</button>
+            </div>
+            <div class="w3-half">
+              <button id="input_CONT_회원가입_remove" class="w3-button w3-block w3-red w3-section">-&nbsp;&nbsp;범주 삭제</button>
+            </div>
+            <div id="div_회원가입"><!--동적 생성란--></div>
+          </div></div>
+          <br><br>
+          
+          <!-- 강좌 현황 -->
+          <div class="w3-card-4 w3-round w3-light-grey"><div class="w3-container">
+            <div class="w3-container w3-round-xlarge w3-blue-grey w3-margin">
+              <h2 class="w3-center"><b>🖍 강좌 및 행사 현황</b></h2>
+            </div>
+            <hr>
+            <p><span class="inputHeader">제목 : </span>
+              <input type="text" id="input_CONT_강좌_title" class="w3-border long" required></p>
+            <hr>
+            <h3 class="w3-center">범주 설정</h3>
+            <p><ul>
+              <li>범주 예시 : 독서진흥강좌 및 행사, 도서관 견학</li>
+              <li>범주를 세부적으로 더 쪼개야 하면, '추가범주'를 사용하세요.</li>
+              <li>추가범주는 쉼표( , )로 서로를 구분하여 입력하세요.</li>
+              <li>입력칸수는 추가범주 미사용 시 '칸수 숫자' 1개만 입력하고, 추가범주 사용 시 쉼표( , )로 서로를 구분하여 '칸수 숫자'를 입력하세요.</li>
+            </ul></p>
+            <hr>
+            <h6>입력 예시 1 (추가범주 사용)</h6>
+            <p><ul>
+              <li>범주 : [독서진흥강좌 및 행사]</li>
+              <li>추가범주 : [문화강좌,독서회,프로그램]</li>
+              <li>입력칸수 : [5,5,3]</li>
+            </ul></p>
+            <h6>입력 예시 2 (추가범주 미사용)</h6>
+            <p><ul>
+              <li>범주 : [독서동아리 대관]</li>
+              <li>입력칸수 : [2]</li>
+            </ul></p>
+            <hr>
+            <div class="w3-half">
+              <button id="input_CONT_강좌_add" class="w3-button w3-block w3-green w3-section">+&nbsp;&nbsp;범주 추가</button>
+            </div>
+            <div class="w3-half">
+              <button id="input_CONT_강좌_remove" class="w3-button w3-block w3-red w3-section">-&nbsp;&nbsp;범주 삭제</button>
+            </div>
+            <div id="div_강좌"><!--동적 생성란--></div>
+          </div></div>
+          <br><br>
+          
+          <!-- 특기사항 -->
+          <div class="w3-card-4 w3-round w3-light-grey"><div class="w3-container">
+            <div class="w3-container w3-round-xlarge w3-blue-grey w3-margin">
+              <h2 class="w3-center"><b>📌 특기사항</b></h2>
+            </div>
+            <hr>
+            <p><span class="inputHeader">제목 : </span>
+              <input type="text" id="input_CONT_기타_title" class="w3-border long" required></p>
+            <p><span class="inputHeader">입력칸수 : </span>
+              <input type="number" id="input_CONT_기타_lines" class="w3-border short right" required>줄</p>
+            </div>
+          </div></div>
+          
+        <!-- 우측 열 끝 -->
+        </div>
+        
+      <!-- 그리드 끝 -->
+      </div>
+      
+    <!-- 본 페이지 끝 -->
+    </div>
+
+    <!-- 페이지 하단부 -->
+    <footer class="first w3-container w3-theme-d3 w3-padding">
+      <div id="settings" class="w3-bar-item w3-xlarge">⚙️ 부가기능</div>
+    </footer>
+    <footer class="w3-container w3-theme-d3 w3-padding-large">
+      <div id="downloadContent" class="w3-bar-item w3-padding w3-light-blue w3-button"><u>↑</u> 입력내용 반출</div>
+      <div id="loadExample" class="w3-bar-item w3-padding w3-light-blue w3-button">예시 불러오기(중앙도서관)</div>
+      <!-- 반입 기능 미구현
+      <div id="uploadContent" class="w3-bar-item w3-padding w3-margin-left w3-light-blue w3-button"><u>↓</u> 입력내용 반입</div>
+      -->
+
+      <div id="resetContent" class="w3-bar-item w3-padding w3-right w3-red w3-button">↻ 초기화</div>
+    </footer>
+
+  </body>
+
+  <!-- excel 관련 -->
+  <script type="text/javascript" src="./files/exceljs.min.js"></script>
+  <script type="text/javascript" src="./files/FileSaver.min.js"></script>
+  <script type="text/javascript" src="./files/excelTools.js"></script>
+  <script type="text/javascript" src="./files/excelStyles.js"></script>
+  <!-- 스크립트 -->
+  <script type="text/javascript" src="./files/excelDataset.js"></script>
+  <script type="text/javascript" src="./files/excelDatasetExample.js"></script>
+  <script type="text/javascript" src="./files/maker_script.js"></script>
+</html>
