@@ -227,7 +227,7 @@ let getContent = () => {
     else if (wide === "32" && tempRow > 2) tooMuch분류 = 1
   }
   if (tooMuch분류 === 1) {
-    alert("* 이용 분류가 너무 많습니다. 안내문을 참고하여 다시 설정해주세요.")
+    alert("* 오류 : 이용 분류가 너무 많습니다. 안내문을 참고하여 다시 설정해주세요.")
     throw new Error('입력값 수집 정지됨 : 이용자 분류 수량 초과')
   }
   //5. 소장자료
@@ -276,7 +276,7 @@ let getContent = () => {
       let subLinesArr = $("#input_CONT_강좌_group_lines_" + (i+1).toString()).value.split(",").map(item => item.trim())
       //쉼표 나누기가 제대로 되지 않으면 경고 후 종료
       if (subNameArr.length !== subLinesArr.length) {
-        alert("* 강좌 및 행사 현황 : " + (i+1).toString() + "번 범주의 추가범주/입력칸수의 쉼표 수가 일치하지 않습니다.")
+        alert("* 오류 : 강좌 및 행사 현황 - " + (i+1).toString() + "번 범주의 추가범주/입력칸수의 쉼표 수가 일치하지 않습니다.")
         throw new Error('입력값 수집 정지됨 : 입력값 오류')
       } else {
         subNameArr.forEach((x,j) => {
@@ -292,7 +292,7 @@ let getContent = () => {
     } else {
       //쉼표가 있으면 경고 후 종료
       if ($("#input_CONT_강좌_group_lines_" + (i+1).toString()).value.indexOf(",") >= 0) {
-        alert("* 강좌 및 행사 현황 : " + (i+1).toString() + "번 범주 입력칸수에서 쉼표를 제거해주세요.")
+        alert("* 오류 : 강좌 및 행사 현황 : " + (i+1).toString() + "번 범주 입력칸수에서 쉼표를 제거해주세요.")
         throw new Error('입력값 수집 정지됨 : 입력값 오류')
       } else {
         groupObj.lines = Number($("#input_CONT_강좌_group_lines_" + (i+1).toString()).value)
@@ -895,22 +895,24 @@ $("#downloadContent").onclick = () => {
   saveAs(fileToSave, "data.json") 
 }
 //버튼 : 입력내용 반입 - 구현 중
-/*
-$("#uploadContent").onChange = (event) => {
-  alert()
+$("#uploadContent").onchange = (event) => {
   let reader = new FileReader()
   try {
     reader.onload = (event) => {
-      let uploadObj = JSON.parse(event.target.result)
-      console.log(uploadObj)
-      //setContent(uploadObj)
+      try {
+        let uploadObj = JSON.parse(event.target.result)
+      } catch(e) {alert("* 오류 : 반입에 실패하였습니다 - 파일에 문제가 있거나, 알 수 없는 오류가 발생하였습니다.")}
+      setContent(uploadObj)
+      alert("입력내용 반입이 완료되었습니다.")
+    }
+    reader.onerror = () => {
+      alert("* 오류 : 반입에 실패하였습니다 - 파일에 문제가 있거나, 알 수 없는 오류가 발생하였습니다.")
     }
     reader.readAsText(event.target.files[0])
   } catch(e) {
-    alert("* 반입에 실패하였습니다 : 파일에 문제가 있거나, 알 수 없는 오류가 발생하였습니다.")
+    alert("* 오류 : 반입에 실패하였습니다 - 파일에 문제가 있거나, 알 수 없는 오류가 발생하였습니다.")
   }
 }
-*/
 //버튼 : 예시 불러오기
 $("#loadExample").onclick = () => {
   let reset = confirm("예시 데이터를 불러오겠습니까?")

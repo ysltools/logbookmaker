@@ -68,3 +68,5 @@ input[type="radio"]:checked + label {
 select {
   margin-left:5px;
 }
+
+td {text-align: center;}

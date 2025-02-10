@@ -218,13 +218,26 @@
             <p><span class="inputHeader">제목 : </span>
               <input type="text" id="input_CONT_이용자_title" class="w3-border long" required></p>
             <hr>
-            <h5>최대 분류 수량 (기본 크기 기준)</h5>
-            <p class="w3-small"><ul>
-              <li>야간 X, 특성화 X : 최대 분류 14개 가능</li>
-              <li>야간 O, 특성화 X : 최대 분류 10개 가능</li>
-              <li>야간 X, 특성화 O : 최대 분류 12개 가능</li>
-              <li>야간 O, 특성화 O : 최대 분류 8개 가능</li>
-              </ul></p>
+            <h5>각 조건별 <b>이용 분류(상단, 열)</b> 최대 수량</h5>
+            <p class="w3-small">
+              <table class="w3-table-all w3-bordered">
+                <tr>
+                  <td></td><td class="w3-center">기본 크기</td><td class="w3-center">확장 1</td><td class="w3-center">확장 2</td><td class="w3-center">확장 3</td>
+                </tr>
+                <tr>
+                  <td class="w3-center">야간 X, 특성화 X</td><td class="w3-center">14개</td><td class="w3-center">7개</td><td class="w3-center">6개</td><td class="w3-center">4개</td>
+                </tr>
+                <tr>
+                  <td class="w3-center">야간 O, 특성화 X</td><td class="w3-center">10개</td><td class="w3-center">5개</td><td class="w3-center">4개</td><td class="w3-center">2개</td>
+                </tr>
+                <tr>
+                  <td class="w3-center">야간 X, 특성화 O</td><td class="w3-center">12개</td><td class="w3-center">6개</td><td class="w3-center">5개</td><td class="w3-center">3개</td>
+                </tr>
+                <tr>
+                  <td class="w3-center">야간 O, 특성화 O</td><td class="w3-center">8개</td><td class="w3-center">4개</td><td class="w3-center">3개</td><td class="w3-center">2개</td>
+                </tr>
+              </table>
+            </p>
             <hr>
             <h3 class="w3-center">이용자 구분(좌측, 행) 설정</h3>
             <div class="w3-half">
@@ -431,9 +444,7 @@
     </footer>
     <footer class="w3-container w3-theme-d3 w3-padding-large">
       <div id="downloadContent" class="w3-bar-item w3-padding w3-light-blue w3-button"><u>↑</u> 입력내용 반출</div>
-      <!-- 파일 반입 구현 중
       <input id="uploadContent" type="file" style="display:none;"><label for="uploadContent" class="w3-bar-item w3-padding w3-margin-left w3-light-blue w3-button"><u>↓</u> 입력내용 반입</label>
-      -->
       <div id="loadExample" class="w3-bar-item w3-padding w3-margin-left w3-light-blue w3-button">예시 불러오기(중앙도서관)</div>
 
       <div id="resetContent" class="w3-bar-item w3-padding w3-right w3-red w3-button">↻ 초기화</div>
