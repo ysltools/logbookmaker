@@ -106,13 +106,13 @@ let writeExcel = async (outputName,test = "") => {
         r: frLen.관외대출 + 6,
         c: 15
       }}},
-    "이용자":{size:{w:frLen.이용자r+2,h:frLen.이용자c+5},
+    "이용자":{size:{w:frLen.이용자r*CONT.이용자.wide[0]+2*CONT.이용자.wide[1],h:frLen.이용자c+5},
       pos:{s:{
         r: frLen.관외대출 + 7,
         c: 0
       },e:{
         r: frLen.관외대출 + frLen.이용자c + 11,
-        c: frLen.이용자r + 1
+        c: frLen.이용자r*CONT.이용자.wide[0] + 2*CONT.이용자.wide[1] - 1
       }}},
     "야간":{size:{w:4,h:frLen.이용자c+5},
       pos:{s:{
@@ -309,71 +309,88 @@ let textColor = ""//텍스트 색상
     }
   //3-2. 이용자
     //a. 헤더
-    inputCell([frame.이용자.pos.s.r,0], "s", CONT.이용자.title,
-      {bg:"gray",bd:"aboveThick",fsz:"semiLarge",fst:"bold"},
-      {merge:{right:frame.이용자.size.w - 1,down:0}}
-    )
-    inputCell([frame.이용자.pos.s.r+1,0], "s", "구분", {bg:"gray",fsz:"middle",fst:"bold"})
+    let wide = [Number(CONT.이용자.wide[0]), Number(CONT.이용자.wide[1])]
+    inputCell([frame.이용자.pos.s.r,0], "s", CONT.이용자.title, {bg:"gray",bd:"aboveThick",fsz:"semiLarge",fst:"bold"},
+      {merge:{right:frame.이용자.size.w - 1,down:0}})
+    inputCell([frame.이용자.pos.s.r+1,0], "s", "구분", {bg:"gray",fsz:"middle",fst:"bold"},
+      {merge:{right:wide[1]-1,down:0}})
     CONT.이용자.rows.forEach((row,i) => {
-      inputCell([frame.이용자.pos.s.r+1,i+1], "s", row, {bg:"gray",fsz:"middle",fst:"bold"})
+      inputCell([frame.이용자.pos.s.r+1,i*wide[0]+wide[1]], "s", row, {bg:"gray",fsz:"middle",fst:"bold"},
+        {merge:{right:wide[0]-1,down:0}})
     })
-    inputCell([frame.이용자.pos.s.r+1,frame.이용자.pos.e.c], "s", "계", {bg:"gray",fsz:"middle",fst:"bold"})
+    inputCell([frame.이용자.pos.s.r+1,frame.이용자.pos.e.c-(wide[1]-1)], "s", "계", {bg:"gray",fsz:"middle",fst:"bold"},
+      {merge:{right:wide[1]-1,down:0}})
     CONT.이용자.cols.forEach((col,i) => {
-      inputCell([frame.이용자.pos.s.r+2+i,frame.이용자.pos.s.c], "s", col, {bg:"lightGray",fsz:"middle",fst:"bold"})
+      inputCell([frame.이용자.pos.s.r+2+i,frame.이용자.pos.s.c], "s", col, {bg:"lightGray",fsz:"middle",fst:"bold"},
+        {merge:{right:wide[1]-1,down:0}})
     })
-    inputCell([frame.이용자.pos.e.r-2,0], "s", "일계", {bg:"semiDarkGray",fsz:"middle",fst:"bold"})
-    inputCell([frame.이용자.pos.e.r-1,0], "s", "월계", {bg:"semiDarkGray",fsz:"middle",fst:"bold"})
-    inputCell([frame.이용자.pos.e.r,0], "s", "연계", {bg:"semiDarkGray",fsz:"middle",fst:"bold"})
+    inputCell([frame.이용자.pos.e.r-2,0], "s", "일계", {bg:"semiDarkGray",fsz:"middle",fst:"bold"},
+      {merge:{right:wide[1]-1,down:0}})
+    inputCell([frame.이용자.pos.e.r-1,0], "s", "월계", {bg:"semiDarkGray",fsz:"middle",fst:"bold"},
+      {merge:{right:wide[1]-1,down:0}})
+    inputCell([frame.이용자.pos.e.r,0], "s", "연계", {bg:"semiDarkGray",fsz:"middle",fst:"bold"},
+      {merge:{right:wide[1]-1,down:0}})
     //b. 입력칸(이월 시트 제외)
     if (worksheet.name !== "이월") {
       for (let rI = frame.이용자.pos.s.r+2;rI <= frame.이용자.pos.e.r-3;rI++) {
-        for (let cI = frame.이용자.pos.s.c+1;cI <= frame.이용자.pos.e.c-1;cI++) {
-          inputCell([rI,cI], "s", numberInput,
-            {bg:"lightYellow",fsz:"middle",ftp:"number"})
+        for (let cI = frame.이용자.pos.s.c+wide[1];cI <= frame.이용자.pos.e.c-wide[1];cI += wide[0]) {
+          inputCell([rI,cI], "s", numberInput, {bg:"lightYellow",fsz:"middle",ftp:"number"},
+            {merge:{right:wide[0]-1,down:0}})
         }
         //계
-        inputCell([rI,frame.이용자.pos.e.c], "f",
-          "SUM(" + adr(rI,frame.이용자.pos.s.c+1) + ":" + adr(rI,frame.이용자.pos.e.c-1) + ")",
-          {fc:"red",fsz:"middle",fst:"bold",ftp:"number"})
+        inputCell([rI,frame.이용자.pos.e.c-(wide[1]-1)], "f",
+          "SUM(" + adr(rI,frame.이용자.pos.s.c+wide[1]) + ":" + adr(rI,frame.이용자.pos.e.c-wide[1]) + ")",
+          {fc:"red",fsz:"middle",fst:"bold",ftp:"number"},
+          {merge:{right:wide[1]-1,down:0}})
       }
-      for (let cI = frame.이용자.pos.s.c+1;cI <= frame.이용자.pos.e.c;cI++) {
-        if (cI !== frame.이용자.pos.e.c) {
+      for (let cI = frame.이용자.pos.s.c+wide[1];cI <= frame.이용자.pos.e.c-wide[1];cI += wide[0]) {
+        if (cI <= frame.이용자.pos.e.c - wide[1]) {
           //일계(하) - 마지막 열 제외
           inputCell([frame.이용자.pos.e.r-2,cI], "f",
-            "SUM(" + adr(frame.이용자.pos.s.r+2,cI) + ":" + adr(frame.이용자.pos.e.r-3,cI) + ")",
-            {fc:"red",fsz:"middle",fst:"bold",ftp:"number"})
+            "SUM(" + adr(frame.이용자.pos.s.r+2,cI) + ":" + adr(frame.이용자.pos.e.r-3,cI+(wide[0]-1)) + ")",
+            {fc:"red",fsz:"middle",fst:"bold",ftp:"number"},
+            {merge:{right:wide[0]-1,down:0}})
           //월계(하) - 마지막 열 제외
           inputCell([frame.이용자.pos.e.r-1,cI], "f",
             adr(frame.이용자.pos.e.r-2,cI) + "+'" + preSheet + "'!" + adr(frame.이용자.pos.e.r-1,cI),
-            {fsz:"middle",fst:"bold",ftp:"number"})
+            {fsz:"middle",fst:"bold",ftp:"number"},
+            {merge:{right:wide[0]-1,down:0}})
           //연계(하) - 마지막 열 제외
           inputCell([frame.이용자.pos.e.r,cI], "f",
             adr(frame.이용자.pos.e.r-2,cI) + "+'" + preSheet + "'!" + adr(frame.이용자.pos.e.r,cI),
-            {fc:"blue",fsz:"middle",fst:"bold",ftp:"number"})
+            {fc:"blue",fsz:"middle",fst:"bold",ftp:"number"},
+            {merge:{right:wide[0]-1,down:0}})
         }
       }
       //일계(전체)
-      inputCell([frame.이용자.pos.e.r-2,frame.이용자.pos.e.c], "f",
+      inputCell([frame.이용자.pos.e.r-2,frame.이용자.pos.e.c - (wide[1]-1)], "f",
         //"SUM(" + adr(frame.이용자.pos.s.r+2,frame.이용자.pos.e.c) + ":" + adr(frame.이용자.pos.e.r-3,frame.이용자.pos.e.c) + ")",
-        'IFERROR(IF(SUM(' + adr(frame.이용자.pos.s.r+2,frame.이용자.pos.e.c) + ':' + adr(frame.이용자.pos.e.r-3,frame.이용자.pos.e.c) + ')=SUM(' + adr(frame.이용자.pos.e.r-2,frame.이용자.pos.s.c+1) + ':' + adr(frame.이용자.pos.e.r-2,frame.이용자.pos.e.c-1) + '),SUM(' + adr(frame.이용자.pos.e.r-2,frame.이용자.pos.s.c+1) + ':' + adr(frame.이용자.pos.e.r-2,frame.이용자.pos.e.c-1) + '),"←↑합계 다름"),"←↑합계 다름")',
-        {bg:"yellow",fc:"red",fsz:"middle",fst:"bold",ftp:"number"})
+        'IFERROR(IF(SUM(' + adr(frame.이용자.pos.s.r+2,frame.이용자.pos.e.c - (wide[1]-1)) + ':' + adr(frame.이용자.pos.e.r-3,frame.이용자.pos.e.c) + ')=SUM(' + adr(frame.이용자.pos.e.r-2,frame.이용자.pos.s.c+wide[1]) + ':' + adr(frame.이용자.pos.e.r-2,frame.이용자.pos.e.c-wide[1]) + '),SUM(' + adr(frame.이용자.pos.e.r-2,frame.이용자.pos.s.c+wide[1]) + ':' + adr(frame.이용자.pos.e.r-2,frame.이용자.pos.e.c-wide[1]) + '),"←↑합계 다름"),"←↑합계 다름")',
+        {bg:"yellow",fc:"red",fsz:"middle",fst:"bold",ftp:"number"},
+        {merge:{right:wide[1]-1,down:0}})
       //월계(전체)
-      inputCell([frame.이용자.pos.e.r-1,frame.이용자.pos.e.c], "f",
+      inputCell([frame.이용자.pos.e.r-1,frame.이용자.pos.e.c - (wide[1]-1)], "f",
         //"SUM(" + adr(frame.이용자.pos.s.r+2,frame.이용자.pos.e.c) + ":" + adr(frame.이용자.pos.e.r-3,frame.이용자.pos.e.c) + ")",
-        'IFERROR(IF(' + adr(frame.이용자.pos.e.r-2,frame.이용자.pos.e.c) + '+\'' + preSheet + '\'!' + adr(frame.이용자.pos.e.r-1,frame.이용자.pos.e.c) + '=SUM(' + adr(frame.이용자.pos.e.r-1,frame.이용자.pos.s.c+1) + ':' + adr(frame.이용자.pos.e.r-1,frame.이용자.pos.e.c-1) + '),SUM(' + adr(frame.이용자.pos.e.r-1,frame.이용자.pos.s.c+1) + ':' + adr(frame.이용자.pos.e.r-1,frame.이용자.pos.e.c-1) + '),"←↑합계 다름"),"←↑합계 다름")',
-        {fsz:"middle",fst:"bold",ftp:"number"})
+        'IFERROR(IF(' + adr(frame.이용자.pos.e.r-2,frame.이용자.pos.e.c - (wide[1]-1)) + '+\'' + preSheet + '\'!' + adr(frame.이용자.pos.e.r-1,frame.이용자.pos.e.c) + '=SUM(' + adr(frame.이용자.pos.e.r-1,frame.이용자.pos.s.c+wide[1]) + ':' + adr(frame.이용자.pos.e.r-1,frame.이용자.pos.e.c-wide[1]) + '),SUM(' + adr(frame.이용자.pos.e.r-1,frame.이용자.pos.s.c+wide[1]) + ':' + adr(frame.이용자.pos.e.r-1,frame.이용자.pos.e.c-wide[1]) + '),"←↑합계 다름"),"←↑합계 다름")',
+        {fsz:"middle",fst:"bold",ftp:"number"},
+        {merge:{right:wide[1]-1,down:0}})
       //연계(전체)
-      inputCell([frame.이용자.pos.e.r,frame.이용자.pos.e.c], "f",
+      inputCell([frame.이용자.pos.e.r,frame.이용자.pos.e.c - (wide[1]-1)], "f",
         //"SUM(" + adr(frame.이용자.pos.s.r+2,frame.이용자.pos.e.c) + ":" + adr(frame.이용자.pos.e.r-3,frame.이용자.pos.e.c) + ")",
-        'IFERROR(IF(' + adr(frame.이용자.pos.e.r-2,frame.이용자.pos.e.c) + '+\'' + preSheet + '\'!' + adr(frame.이용자.pos.e.r,frame.이용자.pos.e.c) + '=SUM(' + adr(frame.이용자.pos.e.r,frame.이용자.pos.s.c+1) + ':' + adr(frame.이용자.pos.e.r,frame.이용자.pos.e.c-1) + '),SUM(' + adr(frame.이용자.pos.e.r,frame.이용자.pos.s.c+1) + ':' + adr(frame.이용자.pos.e.r,frame.이용자.pos.e.c-1) + '),"←↑합계 다름"),"←↑합계 다름")',
-        {fc:"blue",fsz:"middle",fst:"bold",ftp:"number"})
+        'IFERROR(IF(' + adr(frame.이용자.pos.e.r-2,frame.이용자.pos.e.c - (wide[1]-1)) + '+\'' + preSheet + '\'!' + adr(frame.이용자.pos.e.r,frame.이용자.pos.e.c) + '=SUM(' + adr(frame.이용자.pos.e.r,frame.이용자.pos.s.c+wide[1]) + ':' + adr(frame.이용자.pos.e.r,frame.이용자.pos.e.c-wide[1]) + '),SUM(' + adr(frame.이용자.pos.e.r,frame.이용자.pos.s.c+wide[1]) + ':' + adr(frame.이용자.pos.e.r,frame.이용자.pos.e.c-wide[1]) + '),"←↑합계 다름"),"←↑합계 다름")',
+        {fc:"blue",fsz:"middle",fst:"bold",ftp:"number"},
+        {merge:{right:wide[1]-1,down:0}})
     //이월 시트: 연계(공란)만 입력
     } else {
-      for (let cI = frame.이용자.pos.s.c+1;cI <= frame.이용자.pos.e.c;cI++) {
+      for (let cI = frame.이용자.pos.s.c+wide[1];cI <= frame.이용자.pos.e.c-wide[1];cI += wide[0]) {
         //연계(하)
         inputCell([frame.이용자.pos.e.r,cI], "s", numberInput,
-          {fc:"blue",fsz:"middle",fst:"bold",ftp:"number"})
+          {fc:"blue",fsz:"middle",fst:"bold",ftp:"number"},
+          {merge:{right:wide[0]-1,down:0}})
       }
+      inputCell([frame.이용자.pos.e.r,frame.이용자.pos.e.c-(wide[1]-1)], "s", numberInput,
+        {fc:"blue",fsz:"middle",fst:"bold",ftp:"number"},
+        {merge:{right:wide[1]-1,down:0}})
     }
   //3-3. 야간이용현황(있으면)
   if (CONT.야간 && CONT.야간.enabled === 1) {
@@ -631,7 +648,7 @@ let textColor = ""//텍스트 색상
         inputCell([frame.소장자료.pos.s.r,frame.소장자료.pos.e.c-1], "s", "비도서 현황",
           {bg:"skyBlue",bd:"aboveThick",fsz:"middle",fst:"bold"},
           {merge:{right:1,down:0}})  
-        inputCell([frame.소장자료.pos.s.r+1,frame.소장자료.pos.e.c-1], "s", "계", {bg:"lightGray",fsz:"middle",fst:"bold"})
+        inputCell([frame.소장자료.pos.s.r+1,frame.소장자료.pos.e.c-1], "s", "계", {bg:"lightGray",bd:"underDouble",fsz:"middle",fst:"bold"})
         //c-2. 비도서 입력칸
         CONT.소장자료.비도서.forEach((row,i) => {
           switch (CONT.소장자료.비도서type[i]) {
@@ -654,7 +671,7 @@ let textColor = ""//텍스트 색상
         if (worksheet.name !== "이월") {
           inputCell([frame.소장자료.pos.s.r+1,frame.소장자료.pos.e.c], "f",
             "SUM(" + adr(frame.소장자료.pos.s.r+2,frame.소장자료.pos.e.c) + ":" + adr(frame.소장자료.pos.s.r+frLen.비도서+1,frame.소장자료.pos.e.c) + ")",
-            {fc:"blue",fsz:"middle",fst:"bold",ftp:"number"})
+            {bd:"underDouble",fc:"red",fsz:"middle",fst:"bold",ftp:"number"})
         }
       }
   //3-6. 회원가입

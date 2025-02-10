@@ -58,6 +58,9 @@ let cellStyles = {
     leftThick:{
       border:{top:{style:"h"},bottom:{style:"thin"},left:{style:"medium"},right:{style:"thin"}}
     },
+    underDouble:{
+      border:{top:{style:"thin"},bottom:{style:"double"},left:{style:"thin"},right:{style:"thin"}}
+    },
     underThick:{
       border:{top:{style:"thin"},bottom:{style:"medium"},left:{style:"thin"},right:{style:"thin"}}
     },

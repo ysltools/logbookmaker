@@ -57,7 +57,13 @@ input[type="number"].right {
 }
 input[type="checkbox"], label {
   cursor:pointer;
-  user-select: none;
+  user-select:none;
+}
+input[type="radio"] + label {
+  font-weight:normal;
+}
+input[type="radio"]:checked + label {
+  font-weight:bold;
 }
 select {
   margin-left:5px;

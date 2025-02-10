@@ -76,6 +76,7 @@
             <div class="w3-container w3-round-xlarge w3-blue-grey w3-margin">
               <h2 class="w3-center"><b>📅 요일별 문구 설정</b></h2>
             </div>
+            <p>※ <b class="w3-text-red">공휴일 휴관일 문구</b>는 파일 내에서 직접 입력해주세요.</p>
             <hr>
             <h3 class="w3-center">월요일</h3>
             <p><span class="inputHeader">문구내용 : </span>
@@ -217,6 +218,7 @@
             <p><span class="inputHeader">제목 : </span>
               <input type="text" id="input_CONT_이용자_title" class="w3-border long" required></p>
             <hr>
+            <h5>최대 분류 수량 (기본 크기 기준)</h5>
             <p class="w3-small"><ul>
               <li>야간 X, 특성화 X : 최대 분류 14개 가능</li>
               <li>야간 O, 특성화 X : 최대 분류 10개 가능</li>
@@ -241,6 +243,13 @@
               <button id="input_CONT_이용자_row_remove" class="w3-button w3-block w3-red w3-section">-&nbsp;&nbsp;분류 삭제</button>
             </div>
             <div id="div_이용자_row"><!--동적 생성란--></div>
+            <hr>
+            <h3 class="w3-center">|⬌| 이용자 현황 크기 확장</h3>
+            <p><b>👪 이용자 현황</b>을 좌우로 확장하여 여백을 줄입니다.</p>
+            <p><input id="input_CONT_이용자_wide_11" name="input_CONT_이용자_wide" class="w3-check input_CONT_이용자_wide" type="radio" value="11" checked><label for="input_CONT_이용자_wide_11"> 기본 크기 사용</label></p>
+            <p><input id="input_CONT_이용자_wide_21" name="input_CONT_이용자_wide" class="w3-check input_CONT_이용자_wide" type="radio" value="21"><label for="input_CONT_이용자_wide_21"> 확장 1 ('이용 분류' 크기 2배)</label></p>
+            <p><input id="input_CONT_이용자_wide_22" name="input_CONT_이용자_wide" class="w3-check input_CONT_이용자_wide" type="radio" value="22"><label for="input_CONT_이용자_wide_22"> 확장 2 ('이용 분류' 크기 2배, '구분/계' 크기 2배)</label></p>
+            <p><input id="input_CONT_이용자_wide_32" name="input_CONT_이용자_wide" class="w3-check input_CONT_이용자_wide" type="radio" value="32"><label for="input_CONT_이용자_wide_32"> 확장 3 ('이용 분류' 크기 3배, '구분/계' 크기 2배)</label></p>
           </div></div>
           <br>
 
@@ -422,10 +431,10 @@
     </footer>
     <footer class="w3-container w3-theme-d3 w3-padding-large">
       <div id="downloadContent" class="w3-bar-item w3-padding w3-light-blue w3-button"><u>↑</u> 입력내용 반출</div>
-      <div id="loadExample" class="w3-bar-item w3-padding w3-light-blue w3-button">예시 불러오기(중앙도서관)</div>
-      <!-- 반입 기능 미구현
-      <div id="uploadContent" class="w3-bar-item w3-padding w3-margin-left w3-light-blue w3-button"><u>↓</u> 입력내용 반입</div>
+      <!-- 파일 반입 구현 중
+      <input id="uploadContent" type="file" style="display:none;"><label for="uploadContent" class="w3-bar-item w3-padding w3-margin-left w3-light-blue w3-button"><u>↓</u> 입력내용 반입</label>
       -->
+      <div id="loadExample" class="w3-bar-item w3-padding w3-margin-left w3-light-blue w3-button">예시 불러오기(중앙도서관)</div>
 
       <div id="resetContent" class="w3-bar-item w3-padding w3-right w3-red w3-button">↻ 초기화</div>
     </footer>

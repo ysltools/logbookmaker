@@ -66,18 +66,19 @@ let dataObj =
       title:"👪 이용자 현황",
       maxRow:14,
       rows:["종합자료실","어린이자료실","동네서점","강좌 및 행사"],
-      cols:["영유아","학생","일반"]
+      cols:["영유아","학생","일반"],
+      wide:"11"//이용자 현황 확장 키워드
     },
     "야간":{
       title:"🌙 야간 이용 현황",
-      enabled:1,
+      enabled:0,
       study:1,
       studyName:"학습실이용자"
     },
     "특성화":{
       title:"☺ 특성화자료 현황",
       name:"향토",
-      enabled:1
+      enabled:0
     },
     "소장자료":{
       title:"📕\n소장자료\n현황",
@@ -85,7 +86,7 @@ let dataObj =
       비도서:["시청각자료","DVD","부록자료","CD","TAPE","딸림책"],
       비도서type:["category","item","category","item","item","item"],
       totalName:"📚\n소장총계",
-      subTotals:["年 연간증가"],
+      subTotals:["年 도서증가"],
       subTotalsRef:["도서"]//도서, 비도서, all, none 가능
     },
     "회원가입":{

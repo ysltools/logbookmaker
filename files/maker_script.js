@@ -93,6 +93,8 @@ let setContent = (input) => {
   $("#input_CONT_이용자_title").value = input.wsContents.이용자.title.replaceAll("\n","\\n")
   setElement("이용자_col",input)
   setElement("이용자_row",input)
+  if ($("#input_CONT_이용자_wide_" + input.wsContents.이용자.wide))
+    $("#input_CONT_이용자_wide_" + input.wsContents.이용자.wide).checked = true
 
   //3. 야간
   $("#input_CONT_야간_enabled").checked = (input.wsContents.야간.enabled === 1) ? true : false
@@ -186,6 +188,7 @@ let getContent = () => {
   $$(".input_CONT_이용자_row").forEach(row => {
     output.wsContents.이용자.rows.push(row.value)
   })
+  output.wsContents.이용자.wide = $("input[name='input_CONT_이용자_wide']:checked").value
   //3. 야간
   output.wsContents.야간 = {}
   output.wsContents.야간.title = $("#input_CONT_야간_title").value.replaceAll("\\n","\n")
@@ -198,20 +201,33 @@ let getContent = () => {
   output.wsContents.특성화.name = $("#input_CONT_특성화_name").value.replaceAll("\\n","\n")
   output.wsContents.특성화.enabled = ($("#input_CONT_특성화_enabled").checked === true) ? 1 : 0
   //4-2. 이용자 분류 초과 체크
-  let tempRow = output.wsContents.이용자.rows
+  let tempRow = output.wsContents.이용자.rows.length
   let tempEnabled = [output.wsContents.야간.enabled,output.wsContents.특성화.enabled]
-  let tooMuchRow = 0
-  if (tempEnabled[0] === 0 && tempEnabled[1] === 0 && tempRow.length > 14) {
-    tooMuchRow = 1
-  } else if (tempEnabled[0] === 1 && tempEnabled[1] === 0 && tempRow.length > 10) {
-    tooMuchRow = 1
-  } else if (tempEnabled[0] === 0 && tempEnabled[1] === 1 && tempRow.length > 12) {
-    tooMuchRow = 1
-  } else if (tempEnabled[0] === 1 && tempEnabled[1] === 1 && tempRow.length > 8) {
-    tooMuchRow = 1
+  let wide = output.wsContents.이용자.wide
+  let tooMuch분류 = 0
+  if (tempEnabled[0] === 0 && tempEnabled[1] === 0) {//야간 X, 특성화 X (빈칸 16)
+    if (wide === "11" && tempRow > 14) tooMuch분류 = 1
+    else if (wide === "21" && tempRow > 7) tooMuch분류 = 1
+    else if (wide === "22" && tempRow > 6) tooMuch분류 = 1
+    else if (wide === "32" && tempRow > 4) tooMuch분류 = 1
+  } else if (tempEnabled[0] === 0 && tempEnabled[1] === 1) {//야간 X, 특성화 O (빈칸 14)
+    if (wide === "11" && tempRow > 12) tooMuch분류 = 1
+    else if (wide === "21" && tempRow > 6) tooMuch분류 = 1
+    else if (wide === "22" && tempRow > 5) tooMuch분류 = 1
+    else if (wide === "32" && tempRow > 3) tooMuch분류 = 1
+  } else if (tempEnabled[0] === 1 && tempEnabled[1] === 0) {//야간 O, 특성화 X (빈칸 12)
+    if (wide === "11" && tempRow > 10) tooMuch분류 = 1
+    else if (wide === "21" && tempRow > 5) tooMuch분류 = 1
+    else if (wide === "22" && tempRow > 4) tooMuch분류 = 1
+    else if (wide === "32" && tempRow > 2) tooMuch분류 = 1
+  } else if (tempEnabled[0] === 1 && tempEnabled[1] === 1) {//야간 O, 특성화 O (빈칸 10)
+    if (wide === "11" && tempRow > 8) tooMuch분류 = 1
+    else if (wide === "21" && tempRow > 4) tooMuch분류 = 1
+    else if (wide === "22" && tempRow > 3) tooMuch분류 = 1
+    else if (wide === "32" && tempRow > 2) tooMuch분류 = 1
   }
-  if (tooMuchRow === 1) {
-    alert("* 이용 분류가 너무 많습니다. 해당 안내문을 참고해주세요.")
+  if (tooMuch분류 === 1) {
+    alert("* 이용 분류가 너무 많습니다. 안내문을 참고하여 다시 설정해주세요.")
     throw new Error('입력값 수집 정지됨 : 이용자 분류 수량 초과')
   }
   //5. 소장자료
@@ -878,9 +894,21 @@ $("#downloadContent").onclick = () => {
   let fileToSave = new Blob([JSONobj],{type: 'application/json'})
   saveAs(fileToSave, "data.json") 
 }
-//버튼 : 입력내용 반입 - 미구현
+//버튼 : 입력내용 반입 - 구현 중
 /*
-$("#uploadContent").onclick = () => {
+$("#uploadContent").onChange = (event) => {
+  alert()
+  let reader = new FileReader()
+  try {
+    reader.onload = (event) => {
+      let uploadObj = JSON.parse(event.target.result)
+      console.log(uploadObj)
+      //setContent(uploadObj)
+    }
+    reader.readAsText(event.target.files[0])
+  } catch(e) {
+    alert("* 반입에 실패하였습니다 : 파일에 문제가 있거나, 알 수 없는 오류가 발생하였습니다.")
+  }
 }
 */
 //버튼 : 예시 불러오기
@@ -898,5 +926,5 @@ $("#resetContent").onclick = () => {
 //버튼 : 엑셀 출력
 $("#writeExcel").onclick = () => {
   dataObj = getContent()
-  writeExcel(PROP.library + " 업무일지.xlsx")
+  writeExcel("업무일지(" + dataObj.wsProperty.library + " " + dataObj.wsProperty.date[1] + "월).xlsx")
 }
