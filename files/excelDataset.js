@@ -87,7 +87,7 @@ let dataObj =
       비도서type:["category","item","category","item","item","item"],
       totalName:"📚\n소장총계",
       subTotals:["年 도서증가"],
-      subTotalsRef:["도서"]//도서, 비도서, all, none 가능
+      subTotalsRef:["none"]//도서, 비도서, all, none 가능
     },
     "회원가입":{
       title:"📝 독서회원 가입 현황",
