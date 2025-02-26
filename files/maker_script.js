@@ -894,16 +894,16 @@ $("#downloadContent").onclick = () => {
   let fileToSave = new Blob([JSONobj],{type: 'application/json'})
   saveAs(fileToSave, "data.json") 
 }
-//버튼 : 입력내용 반입 - 구현 중
+//버튼 : 입력내용 반입
 $("#uploadContent").onchange = (event) => {
   let reader = new FileReader()
   try {
     reader.onload = (event) => {
       try {
         let uploadObj = JSON.parse(event.target.result)
+        setContent(uploadObj)
+        alert("입력내용 반입이 완료되었습니다.")
       } catch(e) {alert("* 오류 : 반입에 실패하였습니다 - 파일에 문제가 있거나, 알 수 없는 오류가 발생하였습니다.")}
-      setContent(uploadObj)
-      alert("입력내용 반입이 완료되었습니다.")
     }
     reader.onerror = () => {
       alert("* 오류 : 반입에 실패하였습니다 - 파일에 문제가 있거나, 알 수 없는 오류가 발생하였습니다.")
