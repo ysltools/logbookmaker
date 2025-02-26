@@ -371,13 +371,13 @@ let textColor = ""//텍스트 색상
       //월계(전체)
       inputCell([frame.이용자.pos.e.r-1,frame.이용자.pos.e.c - (wide[1]-1)], "f",
         //"SUM(" + adr(frame.이용자.pos.s.r+2,frame.이용자.pos.e.c) + ":" + adr(frame.이용자.pos.e.r-3,frame.이용자.pos.e.c) + ")",
-        'IFERROR(IF(' + adr(frame.이용자.pos.e.r-2,frame.이용자.pos.e.c - (wide[1]-1)) + '+\'' + preSheet + '\'!' + adr(frame.이용자.pos.e.r-1,frame.이용자.pos.e.c) + '=SUM(' + adr(frame.이용자.pos.e.r-1,frame.이용자.pos.s.c+wide[1]) + ':' + adr(frame.이용자.pos.e.r-1,frame.이용자.pos.e.c-wide[1]) + '),SUM(' + adr(frame.이용자.pos.e.r-1,frame.이용자.pos.s.c+wide[1]) + ':' + adr(frame.이용자.pos.e.r-1,frame.이용자.pos.e.c-wide[1]) + '),"←↑합계 다름"),"←↑합계 다름")',
+        'IFERROR(IF(' + adr(frame.이용자.pos.e.r-2,frame.이용자.pos.e.c - (wide[1]-1)) + '+\'' + preSheet + '\'!' + adr(frame.이용자.pos.e.r-1,frame.이용자.pos.e.c - (wide[1]-1)) + '=SUM(' + adr(frame.이용자.pos.e.r-1,frame.이용자.pos.s.c+wide[1]) + ':' + adr(frame.이용자.pos.e.r-1,frame.이용자.pos.e.c-wide[1]) + '),SUM(' + adr(frame.이용자.pos.e.r-1,frame.이용자.pos.s.c+wide[1]) + ':' + adr(frame.이용자.pos.e.r-1,frame.이용자.pos.e.c-wide[1]) + '),"←↑합계 다름"),"←↑합계 다름")',
         {fsz:"middle",fst:"bold",ftp:"number"},
         {merge:{right:wide[1]-1,down:0}})
       //연계(전체)
       inputCell([frame.이용자.pos.e.r,frame.이용자.pos.e.c - (wide[1]-1)], "f",
         //"SUM(" + adr(frame.이용자.pos.s.r+2,frame.이용자.pos.e.c) + ":" + adr(frame.이용자.pos.e.r-3,frame.이용자.pos.e.c) + ")",
-        'IFERROR(IF(' + adr(frame.이용자.pos.e.r-2,frame.이용자.pos.e.c - (wide[1]-1)) + '+\'' + preSheet + '\'!' + adr(frame.이용자.pos.e.r,frame.이용자.pos.e.c) + '=SUM(' + adr(frame.이용자.pos.e.r,frame.이용자.pos.s.c+wide[1]) + ':' + adr(frame.이용자.pos.e.r,frame.이용자.pos.e.c-wide[1]) + '),SUM(' + adr(frame.이용자.pos.e.r,frame.이용자.pos.s.c+wide[1]) + ':' + adr(frame.이용자.pos.e.r,frame.이용자.pos.e.c-wide[1]) + '),"←↑합계 다름"),"←↑합계 다름")',
+        'IFERROR(IF(' + adr(frame.이용자.pos.e.r-2,frame.이용자.pos.e.c - (wide[1]-1)) + '+\'' + preSheet + '\'!' + adr(frame.이용자.pos.e.r,frame.이용자.pos.e.c - (wide[1]-1)) + '=SUM(' + adr(frame.이용자.pos.e.r,frame.이용자.pos.s.c+wide[1]) + ':' + adr(frame.이용자.pos.e.r,frame.이용자.pos.e.c-wide[1]) + '),SUM(' + adr(frame.이용자.pos.e.r,frame.이용자.pos.s.c+wide[1]) + ':' + adr(frame.이용자.pos.e.r,frame.이용자.pos.e.c-wide[1]) + '),"←↑합계 다름"),"←↑합계 다름")',
         {fc:"blue",fsz:"middle",fst:"bold",ftp:"number"},
         {merge:{right:wide[1]-1,down:0}})
     //이월 시트: 연계(공란)만 입력
