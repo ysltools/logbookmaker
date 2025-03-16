@@ -10,6 +10,13 @@ function $$(parameter, startNode) {
   if (!startNode) return document.querySelectorAll(parameter)
   else return startNode.querySelectorAll(parameter)
 }
+//함수 : 일시정지 (출처: https://inpa.tistory.com/entry/JS-📚-자바스크립트에-sleep-wait-대기-함수-쓰기)
+async function wait(sec) {
+  let start = Date.now(), now = start;
+  while (now - start < sec * 1000) {
+      now = Date.now();
+  }
+}
 //변수 : 데이터 불러오기 간략화
 let PROP = dataObj.wsProperty
 let CONT = dataObj.wsContents
@@ -42,7 +49,7 @@ Coloris({
 
 
 //=============================
-// 1. 입력내용 세팅 및 저장
+// 1. 입력내용 입출력 및 임시저장 관련
 //=============================
 //1-1. 입력
 let setContent = (input) => {
@@ -309,6 +316,28 @@ let getContent = () => {
   return output
 }
 
+//1-3. 임시저장
+let saveContent = async () => {
+  //현재 입력값 불러오기
+  let forSave = getContent()
+  //입력값 저장하기
+  localStorage.setItem("savedData", JSON.stringify(forSave))
+  //저장 아이콘 표시
+  $("#saveAlarm").classList.add("animated")
+  $("#saveAlarm").onanimationend = () => {
+    $("#saveAlarm").classList.remove("animated")
+  }
+}
+
+//1-4. 임시저장 불러오기
+let loadContent = () => {
+  let output = localStorage.getItem("savedData")
+  if (output === null) {
+    return null
+  } else {
+    return JSON.parse(output)
+  }
+}
 
 //=============================
 // 2. 입력란 설정
@@ -878,22 +907,32 @@ $("#input_CONT_특성화_enabled").onchange = () => {
 //=============================
 //시작 시
 window.onload = () => {
-  //기본 데이터 불러오기
-  setContent()
+  //저장된 데이터 불러오기 시도
+  let savedData = loadContent()
+  //저장된 데이터 없으면 : 기본 데이터 불러오기
+  if (savedData === null) {
+    setContent()
+  //저장된 데이터 있으면 : 날짜를 비우고 불러오기
+  } else {
+    savedData.wsProperty.date = ["",""]
+    setContent(savedData)
+  }
   //입력값 검증 실시
   $("body").classList.add("checkInvalid")
 }
 
-//버튼 : 입력내용 반출
+//버튼 : 부가기능 (상단)
 $("#settings").onclick = () => {
   $("html").scrollTo({top:$("html").scrollHeight,behavior:'smooth'})
 }
 
+//버튼 : 입력내용 반출
 $("#downloadContent").onclick = () => {
   let JSONobj = JSON.stringify(getContent(), undefined, 2)
   let fileToSave = new Blob([JSONobj],{type: 'application/json'})
   saveAs(fileToSave, "data.json") 
 }
+
 //버튼 : 입력내용 반입
 $("#uploadContent").onchange = (event) => {
   let reader = new FileReader()
@@ -902,6 +941,8 @@ $("#uploadContent").onchange = (event) => {
       try {
         let uploadObj = JSON.parse(event.target.result)
         setContent(uploadObj)
+        //내용 임시저장
+        saveContent()
         alert("입력내용 반입이 완료되었습니다.")
       } catch(e) {alert("* 오류 : 반입에 실패하였습니다 - 파일에 문제가 있거나, 알 수 없는 오류가 발생하였습니다.")}
     }
@@ -913,20 +954,40 @@ $("#uploadContent").onchange = (event) => {
     alert("* 오류 : 반입에 실패하였습니다 - 파일에 문제가 있거나, 알 수 없는 오류가 발생하였습니다.")
   }
 }
+
 //버튼 : 예시 불러오기
 $("#loadExample").onclick = () => {
   let reset = confirm("예시 데이터를 불러오겠습니까?")
-  if (reset === true) setContent(dataObjExample)
-  
+  if (reset === true) {
+    setContent(dataObjExample)
+    //내용 임시저장
+    saveContent()
+  }
 }
+
 //버튼 : 초기화
 $("#resetContent").onclick = () => {
   let reset = confirm("현재 입력된 내용을 지우고 초기화합니다. 진행하겠습니까?")
-  if (reset === true) setContent()
+  if (reset === true) {
+    setContent()
+    //내용 임시저장
+    saveContent()
+  }
 }
 
 //버튼 : 엑셀 출력
 $("#writeExcel").onclick = () => {
   dataObj = getContent()
   writeExcel("업무일지(" + dataObj.wsProperty.library + " " + dataObj.wsProperty.date[1] + "월).xlsx")
+  //내용 임시저장
+  saveContent()
+}
+
+//언제나: 아무 키나 누르면: 임시저장
+document.onkeydown = (e) => {
+  saveContent()
+}
+//언제나: 마우스 좌클릭을 누르면 : 임시저장
+document.onmousedown = (e) => {
+  saveContent()
 }

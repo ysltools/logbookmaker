@@ -3,6 +3,26 @@
   word-break:keep-all;
 }
 
+
+@keyframes blink {
+  0% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.2;
+  }
+}
+#saveAlarm {
+  opacity: 0.2;
+}
+#saveAlarm.animated {
+  animation-name: blink;
+  animation-duration: 1s;
+}
+
 footer.first {
   margin-top:500px;
 }
