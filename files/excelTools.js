@@ -190,7 +190,7 @@ let textColor = ""//텍스트 색상
   //2-0. 이월 시트는 별도 문구 사용
   if (worksheet.name === "이월") {
     dateText = PROP.date[0].toString() + "년 " + PROP.date[1].toString() + "월 이월관리"
-    descText = "'연계', '총회원수' 이월용 시트 / 이전 달 마지막 날의 '연계', '총회원수' 값을 복사 & 붙여널기 하세요"
+    descText = "'연계', '총회원수' 이월용 시트 / 이전 달 마지막 날의 '연계', '총회원수' 값을 복사 & 붙여넣기 하세요"
     textColor = "FF0000"//빨강
   } else {
     //2-1. 요일 구하기
